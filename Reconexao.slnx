@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="src/backend/Reconexao.Api/Reconexao.Api.csproj" />
+  <Project Path="tests/Reconexao.IntegrationTests/Reconexao.IntegrationTests.csproj" />
+</Solution>

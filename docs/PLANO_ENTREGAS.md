@@ -1,6 +1,9 @@
 # Linha de entregas
 
-Status inicial de todas as tarefas: A FAZER. Não é cronograma em dias; preservar o prazo já acordado sem prometer durações inventadas.
+Status em 31/10/2026: T00 ACEITA documentalmente por Arthur, base aprovada com Docker
+Compose; T01 ACEITA por Arthur após evidências e conferência manual da tela local;
+T02–T13 A FAZER. Não é cronograma em dias; preservar o prazo já acordado
+sem prometer durações inventadas.
 
 | ID | Entrega | Dependência | Prompt |
 |---|---|---|---|
@@ -33,11 +36,22 @@ T00 aprova a base; T01 cria aplicação. T02 precede dados privados. T04 deve oc
 Nenhuma entrega de integração vira ACEITA se apenas o adapter fake funciona. Cada tarefa gera evidência sanitizada e atualização do estado. Não avançar sobre falha bloqueante; continuar partes independentes.
 
 ## T00 - Alinhamento tecnico
+- Estado: ACEITA documentalmente em 31/10/2026; base aprovada por Arthur com ajuste
+  Docker Compose. Docker/manifesto conferidos; sem implementação da aplicação ou início T01.
+- Artefatos: [ADR-0001](adr/0001_STACK_PROPOSTA.md), [inventário](INVENTARIO_T00.md),
+  [evidência](evidencias/T00_ALINHAMENTO.md) e triagem por módulo em PENDENCIAS.md.
 - Dependências: Nenhuma.
 - Trabalho: Ler documentos consolidados, identificar conflitos e revisar ferramentas locais. Apresentar stack, identidade, banco local e estrutura; registrar ADR-0001 para aprovacao. Nao implementar a aplicacao antes da aprovacao da base. Separar requisitos pendentes de escolhas tecnicas rotineiras.
 - Saída: Inventario local e ADR proposto/aprovado por Arthur; pendencias por modulo; plano sem regras antigas.
 
 ## T01 - Fundacao executavel
+- Estado: ACEITO por Arthur em 31/10/2026, com base nas evidências registradas e na
+  conferência manual da tela local. Build, PostgreSQL e testes locais executados;
+  revisões QA/segurança concluídas com dois achados baixos corrigidos/retestados.
+  Sem implementação T02+; não equivale à homologação de integrações futuras.
+- Evidência: [T01](evidencias/T01_FUNDACAO.md). Branch `task/t01-fundacao`, base
+  T00 `6e2fe66`; fechamento autorizado com o commit
+  `feat(t01): criar fundacao local do Reconexao`, sem push ou merge.
 - Dependências: T00 aprovada.
 - Trabalho: Criar frontend/backend/banco da stack aprovada, health e primeira migracao de teste. Fixar versoes e lockfiles. Configurar segredos locais, testes e comandos PowerShell reproduziveis. Entregar tela inicial simples com referencia visual, nao todos os modulos. Sem pagamento ou Forms reais obrigatorios nesta etapa.
 - Saída: Build e testes executados; PostgreSQL descartavel funciona; frontend chama API; EXECUCAO_LOCAL preenchido e verificavel.
@@ -95,7 +109,7 @@ Nenhuma entrega de integração vira ACEITA se apenas o adapter fake funciona. C
 ## T12 - Seguranca e homologacao
 - Dependências: Entregas funcionais anteriores e integracoes reais.
 - Trabalho: Executar regressao e revisao independente, corrigir achados significativos e testar restauracao isolada, concorrencia e metas acordadas. Conferir Production sem fakes, segredos e dados ficticios. Revisar retencao P11 e clausula de encerramento P02 com responsaveis. Não publicar produção automaticamente.
-- Saída: C01-C29 aplicaveis com PASSOU/FALHOU/BLOQUEADO; nenhum bloqueio essencial mascarado; aceite funcional do cliente.
+- Saída: C01-C33 aplicaveis com PASSOU/FALHOU/BLOQUEADO/NÃO EXECUTADO; nenhum bloqueio essencial mascarado; aceite funcional do cliente.
 
 ## T13 - Publicacao e handover
 - Dependências: T12 aprovada; autorizacao de publicacao.

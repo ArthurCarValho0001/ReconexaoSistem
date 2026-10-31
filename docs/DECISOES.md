@@ -34,7 +34,13 @@ APROVADO abaixo significa decisão informada por Arthur; não presume ata separa
 | D25 | Vencimento bloqueia conteúdos; renovação confirmada concede mais dois anos | Preservar pontos, respostas, resultados e histórico; acesso ao caminho de renovação permanece |
 | D26 | Preço de renovação configurável pelo admin e informado antes do pagamento | Registrar valor do pedido; política de mudança de preço em checkout aberto é P20 |
 
-Arquitetura ASP.NET Core/React/PostgreSQL foi proposta, não aprovada explicitamente.
+Arquitetura ASP.NET Core/.NET 10, React/TypeScript/Vite, PostgreSQL e identidade
+propostos no ADR-0001 foram aprovados explicitamente por Arthur em 31/10/2026 nesta
+sessão, com ajuste obrigatório: banco local por Docker Compose no Docker Desktop,
+substituindo distribuição nativa/manual. Imagem fixada 18.6-bookworm e digest no ADR;
+volume persistente dev, testes separados descartáveis, porta só loopback e segredos
+fora do Git. P01 resolvida para a base; patches de pacotes e validação funcional na T01.
+Essa aprovação não resolve P02–P22, não aprova fornecedores e não inicia T01 nesta resposta.
 Prevalência: nova instrução explícita registrada > decisões atuais > requisito consolidado;
 conflitos novos devem ser relatados. Material do cliente será referência literal dos cálculos,
 não autorização implícita para mudar acesso ou pontuação.
