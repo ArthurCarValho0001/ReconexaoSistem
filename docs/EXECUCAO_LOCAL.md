@@ -173,4 +173,5 @@ funcionalidades e fornecedores permanecem pendentes conforme o plano.
 Resultados, falhas anteriores e revisões em [evidência T01](evidencias/T01_FUNDACAO.md).
 Revisões em agentes QA e segurança distintos, em paralelo, sem edição. Os dois achados
 baixos foram corrigidos e conferidos pelos respectivos revisores; principal repetiu os
-testes afetados. Isso não equivale ao aceite da T01 ou revisão das funções ainda inexistentes.
+testes afetados. Essas revisões, por si só, não concediam aceite: Arthur aceitou depois
+a T01, conforme ESTADO_PROJETO.md. Não houve revisão de funções ainda inexistentes.

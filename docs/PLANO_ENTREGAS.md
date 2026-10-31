@@ -24,6 +24,16 @@ sem prometer durações inventadas.
 
 ## Sequência e paralelismo
 
+Preparação transversal de agentes em `task/preparar-agentes` (base main `69e8cec`):
+configuração IMPLEMENTADA, prova de delegação VALIDADO_LOCAL e preparação ACEITA por
+Arthur em 31/10/2026 com base nas delegações reais registradas. QA/segurança/pesquisador
+executados na preparação; backend/frontend/banco/devops executados no novo chat de
+31/10/2026 pelos tipos exatos, em pares, com retornos somente de leitura aguardados.
+Bloqueio anterior `unknown agent_type` resolvido. Sem início T02 ou mudança
+de dependências. Fluxo em [FLUXO_AGENTES.md](FLUXO_AGENTES.md), resultados e limitações
+na [evidência](evidencias/PREPARAR_AGENTES.md). Commit, push sem force e abertura de PR
+para main autorizados; merge e início T02 não autorizados nesta tarefa.
+
 T00 aprova a base; T01 cria aplicação. T02 precede dados privados. T04 deve ocorrer cedo; provas reais podem exigir configuração externa. T03 e investigação T04 podem avançar isoladas após T02. T05 usa o contrato de conclusão. T06/T07 podem se dividir só com contratos e worktrees separados. T10 aguarda fórmula oficial; não deve travar catálogo/relatos. T12/T13 exigem integração real e autorização de publicação.
 
 ## Portas de conclusão

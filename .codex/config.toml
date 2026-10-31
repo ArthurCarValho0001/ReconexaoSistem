@@ -1,4 +1,4 @@
-# Exemplo mínimo. Revise compatibilidade/trust no cliente instalado.
+# Agentes do projeto: definições em agents/*.toml; fluxo em docs/FLUXO_AGENTES.md.
 # Não altera modelo, credenciais, sandbox ou permissões.
 [agents]
 enabled = true
