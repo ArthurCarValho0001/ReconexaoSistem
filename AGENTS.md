@@ -54,6 +54,9 @@ Não escolha ou contrate fornecedor pago sem aprovação.
 
 ## Agentes
 
+Consulte `docs/FLUXO_AGENTES.md` para papéis em `.codex/agents/`, contratos de delegação,
+limite de concorrência, revisões e retomada entre chats.
+
 O principal integra e responde pela tarefa. Use revisores especializados quando o prompt
 pedir ou a revisão da entrega exigir; até dois subagentes simultâneos como ponto de partida.
 Revisores de segurança e QA não editam código compartilhado. Delegação de escrita exige
