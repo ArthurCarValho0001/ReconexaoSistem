@@ -70,3 +70,18 @@ patches e compatibilidade funcional do conjunto serão fixados/testados na T01.
 PostgreSQL 18.6-bookworm teve manifesto linux/amd64 confirmado via Docker buildx;
 Engine Linux x86_64 29.9.2 e Compose v5.6.1 responderam. Docker fora do PATH foi
 localizado na instalação por usuário; nenhum fallback para banco nativo/SQLite.
+
+## Fundação implementada na T01
+
+API em src/backend/Reconexao.Api, frontend em src/frontend, suíte de integração em
+tests/Reconexao.IntegrationTests e Compose separados em infra. Migração InitialFoundation
+cria somente marcador estático; não implementa entidades ou fluxos dos módulos futuros.
+API só expõe health e GET /api/foundation; UI verifica API real, com estado de falha/retry.
+Não há autenticação, bootstrap admin ou adapters de fornecedores nesta entrega.
+
+EF Core/Relational/Design 10.0.13, provider/driver Npgsql 10.0.3, React 19.3.1,
+TypeScript 5.9.3 e Vite 7.3.7 foram fixados e compilados com o SDK 10.0.402 e Node
+24.22.2. Dependências completas em lockfiles. API HTTPS 5001 e Vite HTTPS 5173
+com CA local explícita; nenhuma mudança global de confiança/PATH/política PowerShell.
+PostgreSQL 18.6 em volume dev persistente e tmpfs de testes, dados/credenciais isolados.
+Comandos reais e limitações em EXECUCAO_LOCAL e evidência T01.

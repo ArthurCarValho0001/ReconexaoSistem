@@ -1,7 +1,8 @@
 # Linha de entregas
 
 Status em 31/10/2026: T00 ACEITA documentalmente por Arthur, base aprovada com Docker
-Compose; T01–T13 A FAZER. Não é cronograma em dias; preservar o prazo já acordado
+Compose; T01 ACEITA por Arthur após evidências e conferência manual da tela local;
+T02–T13 A FAZER. Não é cronograma em dias; preservar o prazo já acordado
 sem prometer durações inventadas.
 
 | ID | Entrega | Dependência | Prompt |
@@ -44,6 +45,13 @@ Nenhuma entrega de integração vira ACEITA se apenas o adapter fake funciona. C
 - Saída: Inventario local e ADR proposto/aprovado por Arthur; pendencias por modulo; plano sem regras antigas.
 
 ## T01 - Fundacao executavel
+- Estado: ACEITO por Arthur em 31/10/2026, com base nas evidências registradas e na
+  conferência manual da tela local. Build, PostgreSQL e testes locais executados;
+  revisões QA/segurança concluídas com dois achados baixos corrigidos/retestados.
+  Sem implementação T02+; não equivale à homologação de integrações futuras.
+- Evidência: [T01](evidencias/T01_FUNDACAO.md). Branch `task/t01-fundacao`, base
+  T00 `6e2fe66`; fechamento autorizado com o commit
+  `feat(t01): criar fundacao local do Reconexao`, sem push ou merge.
 - Dependências: T00 aprovada.
 - Trabalho: Criar frontend/backend/banco da stack aprovada, health e primeira migracao de teste. Fixar versoes e lockfiles. Configurar segredos locais, testes e comandos PowerShell reproduziveis. Entregar tela inicial simples com referencia visual, nao todos os modulos. Sem pagamento ou Forms reais obrigatorios nesta etapa.
 - Saída: Build e testes executados; PostgreSQL descartavel funciona; frontend chama API; EXECUCAO_LOCAL preenchido e verificavel.

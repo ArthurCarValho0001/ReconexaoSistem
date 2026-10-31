@@ -145,3 +145,13 @@ Aprovação: Arthur, mensagem explícita nesta sessão em 31/10/2026: "Aprovo a 
 da T00 com este ajuste" — PostgreSQL em Docker Compose no Docker Desktop já preparado.
 O ajuste substitui somente o método de banco local; não resolve pendências de negócio,
 não aprova fornecedor pago/publicação e não autoriza iniciar T01 nesta resposta.
+
+## Registro de implementação T01 — 31/10/2026
+
+Arthur autorizou T01 em mensagem posterior à aprovação, mantendo o escopo de fundação.
+SDK 10.0.402, EF Core/Relational/Design e ferramenta EF 10.0.13, provider Npgsql EF
+10.0.3 e driver Npgsql 10.0.3 fixados por manifestos/lockfiles. React/DOM 19.3.1,
+TypeScript 5.9.3, Vite 7.3.7, Node 24.22.2. PostgreSQL 18.6-bookworm no digest
+aprovado executado, PGDATA confirmado e persistência dev após recriação verificada.
+Testes usam tmpfs/projeto/banco/credenciais separados; nenhuma função de identidade
+ou outro módulo futuro foi antecipada. Sem mudança de linha aprovada ou fornecedor.
