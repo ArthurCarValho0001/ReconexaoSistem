@@ -1,0 +1,26 @@
+# Segredos, ambiente e artefatos locais
+.env
+.env.*
+!.env.example
+!.env.*.example
+**/appsettings.Local.json
+**/appsettings.*.Local.json
+**/secrets.json
+*.pfx
+*.pem
+*.key
+node_modules/
+**/bin/
+**/obj/
+**/dist/
+**/coverage/
+**/TestResults/
+.vs/
+*.user
+*.suo
+local-data/
+backups/
+*.dump
+*.log
+playwright-report/
+test-results/
