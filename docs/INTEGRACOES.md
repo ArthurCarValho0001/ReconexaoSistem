@@ -25,6 +25,9 @@ Para desenvolver localmente, uma fixture autenticada de teste valida domínio, m
 integração. Para prova real usar conta de teste, formulário sem dados pessoais reais e
 HTTPS alcançável para callback OU consulta API sem callback; escolher após avaliação.
 Retomada do Google, múltiplos logins, e-mail diferente e formulário despublicado são testes.
+Day exige prova antes/depois da data de Brasília também pelo link direto do Google.
+Rejeitar pontos fora do dia é necessário, mas não prova impedimento do envio. Se a
+capacidade Google não atender R19, bloquear esse aceite e pedir decisão de Arthur.
 
 ## Pagamentos
 
@@ -39,6 +42,9 @@ Admin envia vídeo pelo Reconexão ao fornecedor, acompanha processamento e erro
 reproduz com acesso autorizado; medir 40% por intervalos e tempo plausível, sem alegar
 antifraude absoluto. E-mail: ativação, reemissão e recuperação com fila/retry e tokens
 protegidos. Mensagens de erro não enumeram contas. Fornecedores ainda não escolhidos.
+URLs privadas devem expirar até o vencimento do direito. Provar acesso negado após
+vencimento e suspensão com links já emitidos; incapacidade do fornecedor bloqueia
+o aceite correspondente, sem prometer revogação instantânea não demonstrada.
 
 ## Links
 

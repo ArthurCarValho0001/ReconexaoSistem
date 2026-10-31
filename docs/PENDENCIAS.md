@@ -6,7 +6,7 @@ propõe e Arthur decide. Não marcar pendência resolvida só porque existe um m
 
 | ID | Pergunta / decisão | Bloqueia | Ação |
 |---|---|---|---|
-| P01 | Aprovar stack e versões, método de banco local | T01 | T00 propõe ADR e inspeciona ferramentas |
+| P01 | Base técnica e método de banco local | RESOLVIDA para início T01 | Arthur aprovou em 31/10/2026 com Docker Compose; imagem 18.6-bookworm/digest no ADR; patches de pacotes e testes funcionais ficam na T01 |
 | P02 | Como cumprir mínimo garantido se plataforma encerrar antes? Comunidade acompanha novo acesso? | Encerramento/produção | Definir processo, sem criar expiração aos seis meses |
 | P03 | Quais rotas ficam disponíveis antes do inicial? Vincular Google/conta/ajuda/checkout/admin? | Gate definitivo de entrada | Fechar com Arthur; não bloquear admin ou vinculação por acidente |
 | P04 | Acompanhamento: 30 dias de calendário ou 720 horas? | Fronteira de liberação | Definir e testar fuso |
@@ -31,6 +31,34 @@ propõe e Arthur decide. Não marcar pendência resolvida só porque existe um m
 | P22 | Rotas permitidas ao vencido e tratamento de avisos falhos/atrasados | Gate final e operação dos avisos | Manter caminho de renovação; definir processamento, reconciliação e alerta |
 
 ## Registro de resolução
+
+### Triagem T00 — 31/10/2026
+
+Nenhuma decisão de negócio foi resolvida nesta etapa. Dependências por módulo:
+
+| Módulo/entrega | Pendências e fronteira bloqueada | Trabalho independente possível após P01/T01 |
+|---|---|---|
+| Fundação T01 | P01 resolvida; PostgreSQL em Compose ainda não criado/executado | Base aprovada; T01 não iniciada por instrução explícita |
+| Identidade T02 e entrada T04 | P03 gate; P17 primeiro admin real | Login/sessão/revogação e bootstrap com conta fictícia |
+| Relatos T03 | P03 gate final, P11 retenção real | Envio e consulta admin sem exclusão automática |
+| Forms/Day T04/T05 | P03/P04/P05/P06; configuração Google e prova real | Contratos/fixtures identificadas, importação e ledger locais sem alegar integração |
+| Conteúdo/vídeo T06/T09 | P07 telemetria, P10/P12 fornecedor e limites | Catálogo e políticas de acesso; player final depende de prova real |
+| Turmas T06 | P13 realocação/cancelamento/múltiplas turmas | Alocação admin com capacidade transacional |
+| Comercial/acesso T07 | P09/P14, P19–P21 vigência/preço/reversões, P22 gate vencido | Modelar contratos sem escolher regras ou fornecedor |
+| E-mail/materiais T08 | P10/P12 e P22 operação dos avisos | Fila persistente e adapter local explícito |
+| 3FM T10 | P08 fórmula/vetores oficiais; P06 retomada Google | Contratos/estados bloqueados, sem cálculo inventado |
+| Painéis/UX T11 | P05 consulta própria, P15 métricas, P18 protótipo | Métricas aprovadas e saldo individual |
+| Homologação/produção T12/T13 | P02/P11/P16 e integrações reais; autorização de publicação | Plano de testes, restauração e handover |
+
+P19 também afeta a fronteira de calendário do primeiro período de dois anos;
+P22 não autoriza negar o caminho de renovação. Decisões pendentes devem gerar
+cenários BLOQUEADOS específicos, sem dar aceite integral ao módulo por fixtures.
+
+Resolução P01, 31/10/2026, Arthur: base técnica aprovada com PostgreSQL em Docker
+Compose no Docker Desktop existente, substituindo método nativo. Afeta ADR-0001,
+arquitetura e execução local; desenvolvimento persistente e testes descartáveis isolados,
+loopback e segredos fora do Git. Sem mudança de regra de negócio ou teste funcional
+alegadamente concluído. Docker e manifesto verificados; não iniciar T01 nesta resposta.
 
 Ao resolver: data, pergunta, resposta literal resumida, responsável, requisitos afetados,
 efeito em teste/dados/integração e decisão substituída. Atualizar `DECISOES.md` e critérios.
