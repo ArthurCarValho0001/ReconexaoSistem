@@ -2,6 +2,7 @@ using System.Net;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Npgsql;
 using Reconexao.Api;
 using Xunit;
@@ -95,6 +96,8 @@ public sealed class FoundationTests : IAsyncLifetime
         {
             builder.UseEnvironment("Test");
             builder.UseSetting("ConnectionStrings:Database", connection);
+            builder.UseSetting("Auth:KeysPath", Path.Combine(Path.GetTempPath(), "reconexao-foundation-test-keys"));
+            builder.ConfigureLogging(logging => logging.ClearProviders());
         }
     }
 }

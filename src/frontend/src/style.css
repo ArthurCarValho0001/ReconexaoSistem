@@ -17,4 +17,11 @@ button:hover { background: #23476f; }
 button:focus-visible { outline: 3px solid #b2d4ff; outline-offset: 4px; }
 button:disabled { opacity: .65; cursor: wait; }
 footer { color: #9aaec9; font-size: 12px; border-top: 1px solid #263650; padding-top: 20px; }
+.auth-panel { max-width: 480px; margin-top: 48px; border-top: 1px solid #365071; padding-top: 24px; }
+.auth-panel form { display: flex; flex-direction: column; gap: 10px; }
+.auth-panel input { width: 100%; min-width: 0; padding: 12px; color: #f1f5fb; background: #101f36; border: 1px solid #7898c2; border-radius: 6px; font: inherit; }
+.auth-panel input:focus-visible { outline: 3px solid #b2d4ff; outline-offset: 3px; }
+.auth-panel nav { display: flex; gap: 12px; flex-wrap: wrap; }
+.auth-panel nav button { background: transparent; }
+.auth-error { color: #ffc7b0; }
 @media (max-width: 600px) { main { padding: 24px; } section { padding: 64px 0; } }

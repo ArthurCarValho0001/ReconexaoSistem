@@ -113,6 +113,22 @@ Revisão sequencial pelo principal não equivale a agentes separados.
 
 ## Retomada entre chats
 
+### Demonstração manual ao concluir interfaces
+
+O principal prepara/reutiliza duas contas fictícias no dev persistente:
+`admin@example.test` (admin) e `aluno.a@example.test` (aluno). Use migração documentada
+e `auth-demo`, sem limpar/recriar dev. O test segue separado e descartável para suites.
+Senhas são geradas na primeira preparação, preservadas entre entregas em configuração
+local ignorada e nunca redefinidas no startup. Provisionamento permanece explícito,
+proibido em produção e sem concessão de direito comercial.
+
+Na resposta final de cada entrega com interface testável, informar URL, e-mail/senha
+dessas duas contas fictícias, ambiente e roteiro curto; Arthur autorizou explicitamente
+essa exibição local e não deve ser encaminhado a procurar credenciais em arquivos.
+Não colocar senhas nos documentos/evidências, nem expor credenciais reais, chaves ou
+tokens. Revisores recebem resultados sanitizados, sem precisar das senhas. Essa exceção
+restrita prevalece sobre a proibição geral de registrar credenciais em prompts.
+
 Não presuma memória. Releia `AGENTS.md`, este fluxo, `ESTADO_PROJETO.md`, `DECISOES.md`,
 `PLANO_ENTREGAS.md`, o prompt/critérios da entrega e sua evidência. Consulte os demais
 documentos obrigatórios e Git reais. Cada delegação recebe as referências e os limites

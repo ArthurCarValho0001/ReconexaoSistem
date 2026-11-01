@@ -49,7 +49,9 @@ Backend decide autorização, acesso, conclusão e pontos. Use identidade da ses
 transações e restrições únicas. Não aceite pontuação do navegador. Proteja webhooks,
 reenvios, importações e idempotência. Não registre respostas/relatos/segredos em logs.
 Integrações fictícias só em desenvolvimento/testes, identificadas e desativadas em produção.
-Credenciais ficam fora do Git e dos prompts. Nunca use dados reais em seeds/testes.
+Credenciais ficam fora do Git e dos prompts, exceto a exibição expressamente autorizada
+das duas contas fictícias locais de demonstração na resposta final, conforme abaixo.
+Nunca use dados reais em seeds/testes.
 Não escolha ou contrate fornecedor pago sem aprovação.
 
 ## Agentes
@@ -64,6 +66,17 @@ arquivos separados ou worktrees e contratos definidos. Sem suporte a subagentes,
 as revisões sequencialmente e registre essa limitação; não bloqueie o desenvolvimento.
 
 ## Conclusão
+
+Ao finalizar entrega com interface testável, disponibilize demonstração no banco dev
+persistente, separado do test descartável. Reutilize `admin@example.test` (admin) e
+`aluno.a@example.test` (aluno), quando possível, com senhas estáveis geradas apenas na
+primeira preparação e guardadas em configuração local ignorada. Não redefina senhas
+no startup, limpe/recrie dev ou habilite provisionamento em produção. Aplique migrações
+pelo procedimento documentado, preservando dados. Não conceda acesso comercial real.
+Informe diretamente na resposta final endereço da aplicação, e-mail e senha das duas
+contas fictícias locais, ambiente e roteiro curto. Não peça que Arthur procure as
+credenciais em arquivos. Essa exceção autorizada vale somente para essas contas;
+jamais exponha credenciais reais, chaves ou tokens. Não grave senhas nesta documentação.
 
 Atualize `docs/ESTADO_PROJETO.md`, `docs/PLANO_ENTREGAS.md`, documentos afetados e uma
 evidência baseada em `docs/templates/EVIDENCIA.md`. Liste falhas e dependências.
