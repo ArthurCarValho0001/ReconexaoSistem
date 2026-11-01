@@ -22,6 +22,22 @@ function run(executable, args, env = {}) {
 function localConfig(kind) {
   return JSON.parse(readFileSync(path.join(data, `${kind}.json`), 'utf8'));
 }
+function databaseConnection(kind) {
+  if (!['dev', 'test'].includes(kind)) throw new Error('Ambiente local inválido.');
+  const connection = localConfig(kind).connection;
+  const fields = new Map();
+  for (const field of connection.split(';').filter(Boolean)) {
+    const separator = field.indexOf('=');
+    const key = field.slice(0, separator).trim().toLowerCase();
+    if (separator < 1 || fields.has(key)) throw new Error('Configuração local ambígua.');
+    fields.set(key, field.slice(separator + 1).trim());
+  }
+  if (fields.get('host') !== '127.0.0.1' || fields.get('port') !== (kind === 'dev' ? '55432' : '55433') ||
+      fields.get('database') !== `reconexao_${kind}` || fields.get('username') !== `reconexao_${kind}_app` ||
+      [...fields.keys()].some(key => !['host', 'port', 'database', 'username', 'password', 'timeout', 'command timeout', 'include error detail'].includes(key)))
+    throw new Error('Operação local exige banco, porta e usuário do ambiente selecionado.');
+  return connection;
+}
 function compose(kind, args) {
   run(docker, ['compose', '--env-file', `.env.${kind === 'dev' ? 'development' : 'test'}`,
     '-p', `reconexao-${kind}`, '-f', `infra/compose.${kind}.yaml`, ...args]);
@@ -56,7 +72,7 @@ function persistenceProof() {
       'psql', '-At', '-v', 'ON_ERROR_STOP=1', '-U', 'reconexao_dev_owner', '-d', 'reconexao_dev', '-c', sql],
     { cwd: root, encoding: 'utf8' });
     const proof = result.stdout?.trim().replaceAll('\r\n', '\n');
-    if (result.status !== 0 || proof !== '1|Reconexão\n1') throw new Error('Marcador/migração ausentes ou diferentes do esperado.');
+    if (result.status !== 0 || !/^1\|Reconexão\n[1-9]\d*$/.test(proof ?? '')) throw new Error('Marcador/migrações ausentes ou diferentes do esperado.');
     return proof;
   }
   const originalProof = readProof();
@@ -66,7 +82,7 @@ function persistenceProof() {
   const volume = container => container.Mounts.find(mount => mount.Destination === '/var/lib/postgresql')?.Name;
   if (volume(before) !== volume(after)) throw new Error('Volume mudou.');
   if (readProof() !== originalProof) throw new Error('Dados alterados após recriação.');
-  console.log('PASSOU: container recriado, mesmo volume, marcador 1/Reconexão e uma migração idênticos antes/depois.');
+  console.log('PASSOU: container recriado, mesmo volume, marcador e quantidade de migrações idênticos antes/depois.');
 }
 function setup() {
   mkdirSync(data, { recursive: true });
@@ -88,16 +104,47 @@ function setup() {
 function apiEnv(kind = 'dev') {
   return {
     ASPNETCORE_ENVIRONMENT: kind === 'test' ? 'Test' : 'Development',
-    ConnectionStrings__Database: localConfig(kind).connection,
+    ConnectionStrings__Database: databaseConnection(kind),
     ASPNETCORE_URLS: 'https://localhost:5001',
     ASPNETCORE_Kestrel__Certificates__Default__Path: path.join(data, 'https.pem'),
     ASPNETCORE_Kestrel__Certificates__Default__KeyPath: path.join(data, 'https.key'),
+    Auth__KeysPath: path.join(data, `keys-${kind}`),
+    Auth__EmailAdapter: 'Local',
+    Auth__LocalEmailPath: path.join(data, `email-${kind}`),
   };
+}
+
+function authSetup() {
+  mkdirSync(data, { recursive: true });
+  for (const kind of ['dev', 'test']) {
+    const file = path.join(data, `auth-${kind}.json`);
+    if (!existsSync(file)) writeFileSync(file, JSON.stringify({ password: `Aa1!${randomBytes(24).toString('hex')}` }),
+      { flag: 'wx', mode: 0o600 });
+  }
+  console.log('Senhas fictícias locais criadas/preservadas em local-data/auth-dev.json e auth-test.json; valores não exibidos.');
+}
+
+function seedAuth(kind, demo = false) {
+  authSetup();
+  const credentials = localConfig(`auth-${kind}`);
+  run('dotnet', ['run', '--no-build', '--no-launch-profile', '--project', project, '--', demo ? '--seed-local-demo' : '--seed-local-auth'],
+    { ...apiEnv(kind), LocalAuth__Password: credentials.password });
+  console.log(`Contas fictícias ${demo ? 'admin/aluno de demonstração' : 'A/B/admin'} preparadas somente no ambiente ${kind}.`);
 }
 
 try {
   switch (command) {
     case 'setup': setup(); break;
+    case 'auth-setup': authSetup(); break;
+    case 'auth-seed': seedAuth('dev'); break;
+    case 'auth-demo': seedAuth('dev', true); break;
+    case 'auth-seed-test': seedAuth('test'); break;
+    case 'auth-bootstrap-admin': {
+      const credentials = localConfig('bootstrap-admin');
+      run('dotnet', ['run', '--no-build', '--no-launch-profile', '--project', project, '--', '--bootstrap-admin'],
+        { ...apiEnv(), Bootstrap__Email: credentials.email, Bootstrap__Password: credentials.password });
+      break;
+    }
     case 'docker-info': run(docker, ['info', '--format', '{{.ServerVersion}} {{.OSType}} {{.Architecture}}']); run(docker, ['compose', 'version']); break;
     case 'db-up': compose('dev', ['config', '--quiet']); compose('dev', ['up', '-d', '--wait', 'db']); break;
     case 'db-stop': compose('dev', ['stop', 'db']); break;
@@ -114,9 +161,10 @@ try {
       break;
     case 'migration-add': run('dotnet', ['ef', 'migrations', 'add', 'InitialFoundation', '--project', project], apiEnv()); break;
     case 'migrate': run('dotnet', ['ef', 'database', 'update', '--project', project], apiEnv()); break;
+    case 'migrate-test': run('dotnet', ['ef', 'database', 'update', '--project', project], apiEnv('test')); break;
     case 'api': run('dotnet', ['run', '--no-build', '--no-launch-profile', '--project', project], apiEnv()); break;
     case 'api-test': run('dotnet', ['run', '--no-build', '--no-launch-profile', '--project', project], apiEnv('test')); break;
-    case 'test': run('dotnet', ['test', '--no-build'], { RECONEXAO_TEST_CONNECTION: localConfig('test').connection }); break;
+    case 'test': run('dotnet', ['test', '--no-build', ...process.argv.slice(3)], { RECONEXAO_TEST_CONNECTION: databaseConnection('test') }); break;
     default: throw new Error('Comando inválido. Consulte docs/EXECUCAO_LOCAL.md.');
   }
 } catch {

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './style.css';
+import { AuthPanel } from './AuthPanel';
 
 type Connection = 'loading' | 'ready' | 'error';
 
@@ -45,6 +46,7 @@ function App() {
       <button type="button" disabled={connection === 'loading'} onClick={() => setAttempt(value => value + 1)}>
         {connection === 'loading' ? 'Aguarde…' : 'Verificar conexão'}
       </button>
+      <AuthPanel />
     </section>
     <footer>Reconexão · Espaço em preparação</footer>
   </main>;

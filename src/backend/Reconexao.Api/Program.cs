@@ -10,8 +10,14 @@ if (string.IsNullOrWhiteSpace(connection))
 builder.Services.AddDbContext<FoundationDbContext>(options =>
     options.UseNpgsql(connection, postgres => postgres.SetPostgresVersion(18, 0)));
 builder.Services.AddProblemDetails();
+builder.AddAuth();
 
 var app = builder.Build();
+if (args.Contains("--bootstrap-admin") || args.Contains("--seed-local-auth") || args.Contains("--seed-local-demo"))
+{
+    await Auth.Bootstrap(app, args.Contains("--seed-local-auth") || args.Contains("--seed-local-demo"), args.Contains("--seed-local-demo"));
+    return;
+}
 app.UseExceptionHandler();
 app.Use(async (context, next) =>
 {
@@ -19,6 +25,10 @@ app.Use(async (context, next) =>
     context.Response.Headers.XContentTypeOptions = "nosniff";
     await next();
 });
+app.UseAuthentication();
+app.UseAuthorization();
+app.UseRateLimiter();
+app.MapAuth();
 app.MapGet("/health/live", () => Results.Ok(new { status = "alive" }));
 app.MapGet("/health/ready", async (FoundationDbContext db, CancellationToken cancellation) =>
 {

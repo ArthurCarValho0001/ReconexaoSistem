@@ -1,8 +1,49 @@
 # Estado do projeto para retomada
 
-Atualização: 31/10/2026. T01 ACEITA por Arthur com base nas evidências registradas e
-na conferência manual da tela local, conforme mensagem explícita nesta sessão.
-Revisões QA/segurança concluídas; sem produção ou funções T02+.
+Atualização: 01/11/2026. T01 ACEITA; equipe de agentes aceita e integrada pelo PR #2.
+T02 IMPLEMENTADO, VALIDADO_LOCAL e ACEITO por Arthur em 01/11/2026, considerando
+a conferência manual e o diagnóstico/correções da ressalva de rede/favicon.
+Sem produção ou T03+.
+
+## T02 — autenticação e sessões
+
+- Branch `task/t02-autenticacao-sessoes`, base main `6c406d4`; árvore inicialmente limpa.
+- Identity 10.0.13, perfis aluno/admin, login/logout, cookie seguro, CSRF, sessão
+  revogável por requisição e login concorrente serializado no PostgreSQL.
+- Recuperação por adapter de e-mail LOCAL_SIMULADO em arquivos ignorados dev/test;
+  pedido não revoga, reset válido revoga; token expira em 30 minutos e não é reutilizável.
+- Bootstrap admin por CLI e fixtures A/B/admin explícitas; nenhum cadastro público,
+  promoção pelo navegador, Google verificado fictício ou seed automático no startup.
+- Migração `20261101180858_AuthenticationSessions` aplicada e testada somente no
+  banco test descartável na primeira validação. Na complementação de demonstração
+  autorizada em 01/11/2026, aplicada também ao dev existente, sem limpeza/recriação.
+  Mesmo container/volume e dados anteriores preservados.
+- Demonstração manual: Development/dev persistente em https://localhost:5173,
+  `admin@example.test` (admin) e `aluno.a@example.test` (aluno). `auth-demo` explícito
+  e idempotente, senha local estável/ignorada, proibido em produção. Principal deve
+  informar as credenciais fictícias diretamente na resposta final conforme AGENTS.
+  Test focal 1/1 e dois logins/perfis/autorização/logout Chrome dev passaram;
+  suite completa não foi repetida nesta complementação.
+- Resultados: build .NET sem avisos/erros; 24/24 integração PostgreSQL real, incluindo
+  migração em test recriado; build TypeScript/Vite e 8/8 Chrome E2E, incluindo aluno,
+  admin, revogação, recuperação e regressão T01. Primeiro bootstrap em test vazio e
+  recusa da repetição comprovados por CLI com credenciais transitórias não exibidas.
+- Segurança revalidou duas correções (resposta de recuperação e headers); QA revalidou
+  a correção da corrida visual de sessão atrasada, coberta por E2E com resposta real.
+  Evidência em [T02](evidencias/T02_AUTENTICACAO.md); reprodução em
+  [EXECUCAO_LOCAL](EXECUCAO_LOCAL.md), contratos em [CONTRATOS_API](CONTRATOS_API.md).
+- Aceite explícito de Arthur registrado na evidência T02. Não é VALIDADO_INTEGRACAO
+  de e-mail/Google. E-mail real depende de
+  fornecedor/T08; Google de T04; bloqueio inicial depende de P03. Nenhuma regra
+  comercial, fórmula 3FM ou acesso financeiro implementado nesta entrega.
+- Fechamento autorizado com `feat(t02): implementar autenticacao e sessoes revogaveis`,
+  fetch, push sem force e PR para main. Sem merge, contratação, produção ou início T03.
+- Ressalva DevTools: 401 sem sessão é esperado e tratado; entrada atual não usa
+  StrictMode. Consultas adicionais reproduzidas por foco e antigo polling de 30s.
+  Polling agora só autenticado; foco continua revalidando. Favicon SVG com R existente
+  referenciado explicitamente. Cinco testes afetados passaram; não repetida suite toda.
+
+## Fundação e histórico anterior
 
 - Branch da implementação T01: `task/t01-fundacao`; criada exatamente de
   `6e2fe6657a0edb580b01d284995810701162acf7`, commit aprovado da T00.
@@ -18,7 +59,7 @@ Revisões QA/segurança concluídas; sem produção ou funções T02+.
 - PostgreSQL real 18.6-bookworm no digest aprovado, PGDATA /var/lib/postgresql/18/docker.
   Dev: volume persistente reconexao-dev_dev_data e loopback 55432. Test: tmpfs/banco/
   usuários/secrets separados e loopback 55433. Isolamento e persistência verificados.
-- Código: API/health e GET foundation, contexto/migração marcador estático, tela inicial
+- Código da T01: API/health e GET foundation, contexto/migração marcador estático, tela inicial
   com sucesso/falha/retry. Sem login, contas, perfis, sessões, Forms, pontos ou pagamentos.
 - Testes reais: .NET 9/9 em PostgreSQL descartável, repetidos após recriar só testes;
   Chrome E2E 3/3 com API real e 1/1 com API realmente parada. Build .NET 0 avisos/erros,
@@ -35,7 +76,8 @@ Revisões QA/segurança concluídas; sem produção ou funções T02+.
 - Integrações: somente banco local real. Sem fornecedor externo ou adapter fake.
 - Fórmula oficial 3FM/fornecedores continuam pendentes. P03/P04/P06/P08/P19–P22 e
   demais pendências por módulo preservadas; P01 resolvida na T00.
-- Próximo passo: T02 somente quando solicitada; não iniciada neste fechamento.
+- Próximo passo no fechamento T01: T02 somente quando solicitada; autorizada e executada
+  posteriormente conforme registro acima.
   API/Vite e bancos locais disponíveis; parada documentada.
 - Reprodução: docs/EXECUCAO_LOCAL.md; evidência T01 e capturas sanitizadas em
   docs/evidencias/media. Não marcar T04/T07/T09 prontos com mocks.
@@ -76,7 +118,8 @@ Revisões QA/segurança concluídas; sem produção ou funções T02+.
   para main. Sem alteração funcional, teste da aplicação, início T02, merge ou produção.
 
 IMPLEMENTADO, VALIDADO_LOCAL, VALIDADO_INTEGRACAO e ACEITO são estados distintos.
-Não houve testes de autenticação/admin/aluno, fornecedores, backup/restore ou produção.
+No fechamento T01 não havia testes de autenticação/admin/aluno; os da T02 constam
+acima. Fornecedores, backup/restore e produção não foram validados nesta entrega.
 Inspeção visual inicial usa referência textual, sem snapshot oficial P18. Não resolver
 pendências de negócio para avançar módulos. Novo chat deve ler este arquivo antes de agir.
 

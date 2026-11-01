@@ -85,3 +85,20 @@ TypeScript 5.9.3 e Vite 7.3.7 foram fixados e compilados com o SDK 10.0.402 e No
 com CA local explícita; nenhuma mudança global de confiança/PATH/política PowerShell.
 PostgreSQL 18.6 em volume dev persistente e tmpfs de testes, dados/credenciais isolados.
 Comandos reais e limitações em EXECUCAO_LOCAL e evidência T01.
+
+## Identidade implementada na T02
+
+ASP.NET Core Identity 10.0.13 no contexto existente, com tabelas Identity e campos
+de perfil/sessão. Cookie seguro com validação de sessão/perfil/security stamp por
+requisição; login/reset/logout em transações PostgreSQL com bloqueio de linha por
+usuário. Perfis permitidos e e-mail normalizado único protegidos no banco.
+Não há cadastro público nem identidade/pontuação confiada ao navegador.
+
+CSRF nas escritas, lockout e rate limit local. Bootstrap admin e fixtures explícitos
+por CLI, sem seed automático. `IRecoveryEmail` separa o adapter local de arquivos,
+identificado e proibido em produção. Nenhum fornecedor real foi integrado.
+Chaves Data Protection persistidas em caminho configurado fora do Git; localmente
+dependem de proteção do diretório do usuário, com aviso de ausência de criptografia
+XML em repouso. Configuração operacional de chaves/criptografia/replicação e rate
+limit distribuído devem ser revisados antes da implantação, sem alegar produção pronta.
+Contratos e políticas técnicas em CONTRATOS_API; testes/evidência T02.

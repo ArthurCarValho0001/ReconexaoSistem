@@ -1,8 +1,9 @@
 # Linha de entregas
 
-Status em 31/10/2026: T00 ACEITA documentalmente por Arthur, base aprovada com Docker
+Status em 01/11/2026: T00 ACEITA documentalmente por Arthur, base aprovada com Docker
 Compose; T01 ACEITA por Arthur após evidências e conferência manual da tela local;
-T02–T13 A FAZER. Não é cronograma em dias; preservar o prazo já acordado
+T02 IMPLEMENTADO, VALIDADO_LOCAL e ACEITO por Arthur; T03–T13 A FAZER.
+Não é cronograma em dias; preservar o prazo já acordado
 sem prometer durações inventadas.
 
 | ID | Entrega | Dependência | Prompt |
@@ -67,6 +68,20 @@ Nenhuma entrega de integração vira ACEITA se apenas o adapter fake funciona. C
 - Saída: Build e testes executados; PostgreSQL descartavel funciona; frontend chama API; EXECUCAO_LOCAL preenchido e verificavel.
 
 ## T02 - Autenticacao e sessoes
+- Estado: IMPLEMENTADO, VALIDADO_LOCAL e ACEITO por Arthur em 01/11/2026; não homologação
+  de integração externa. Branch `task/t02-autenticacao-sessoes`, base main `6c406d4`.
+- Conferência manual aprovada com ressalva por Arthur: consultas 401 anônimas e
+  favicon investigados; polling anônimo retirado, favicon corrigido, cinco cenários
+  afetados passaram. Arthur confirmou o aceite considerando essas correções;
+  401/403 preservados.
+- Evidência: [T02](evidencias/T02_AUTENTICACAO.md). Identity/cookie/CSRF, perfis,
+  revogação e recuperação local, bootstrap e fixtures explícitas. Build .NET sem
+  avisos/erros, 24/24 integração PostgreSQL real e 8/8 Chrome E2E; build frontend passou.
+  Migração validada em test descartável e depois aplicada ao dev existente para
+  demonstração autorizada, sem limpar/recriar dev. Admin/aluno fictícios estáveis,
+  provisionamento explícito; teste focal 1/1 e dois logins Chrome dev confirmados.
+  Commit, push sem force e PR de fechamento autorizados. Sem fornecedor real,
+  merge, publicação ou início T03. Google T04, e-mail T08 e gate P03 pendentes.
 - Dependências: T01.
 - Trabalho: Implementar identidade segura, perfis, login/logout, recuperacao com adapter de email local e sessao revogavel; novo login encerra a anterior. Bootstrap admin controlado, contas ficticias A/B/admin. Google vinculado sera completado em T04, sem forjar validacao. Inicial gate so quando P03 definido.
 - Saída: C05/C06; falhas de login/recuperacao tratadas; aluno nao atribui perfil; fake email so dev/test.
