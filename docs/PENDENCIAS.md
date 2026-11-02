@@ -63,3 +63,10 @@ alegadamente concluído. Docker e manifesto verificados; não iniciar T01 nesta 
 Ao resolver: data, pergunta, resposta literal resumida, responsável, requisitos afetados,
 efeito em teste/dados/integração e decisão substituída. Atualizar `DECISOES.md` e critérios.
 Não reabrir preço/prazo/pagamento como pré-condição de uma tarefa técnica independente.
+
+### Execução independente T03 — 01/11/2026
+
+P03 (gate inicial) e P11 (retenção/produção com dados reais) continuam pendentes.
+T03 implementa envio autenticado e consulta administrativa conforme D16/D22, sem
+gate inicial, exclusão automática ou prazo de retenção inventados. Essa execução
+local não resolve essas pendências nem autoriza produção com dados reais.

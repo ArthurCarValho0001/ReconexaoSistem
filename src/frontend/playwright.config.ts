@@ -2,7 +2,7 @@ import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
   testDir: './e2e',
-  testMatch: process.env.RECONEXAO_API_OFFLINE === '1' ? 'offline.spec.ts' : /(?:foundation|auth)\.spec\.ts/,
+  testMatch: process.env.RECONEXAO_API_OFFLINE === '1' ? 'offline.spec.ts' : /(?:foundation|auth|reports)\.spec\.ts/,
   workers: 1,
   reporter: 'list',
   use: {

@@ -1,0 +1,56 @@
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+
+#nullable disable
+
+namespace Reconexao.Api.Migrations
+{
+    /// <inheritdoc />
+    public partial class PrivateReports : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.CreateTable(
+                name: "PrivateReports",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    AuthorId = table.Column<string>(type: "text", nullable: false),
+                    Text = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PrivateReports", x => x.Id);
+                    table.CheckConstraint("CK_Report_Length", "char_length(\"Text\") BETWEEN 1 AND 1000");
+                    table.ForeignKey(
+                        name: "FK_PrivateReports_AspNetUsers_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PrivateReports_AuthorId",
+                table: "PrivateReports",
+                column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PrivateReports_CreatedAt_Id",
+                table: "PrivateReports",
+                columns: new[] { "CreatedAt", "Id" },
+                descending: new bool[0]);
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: "PrivateReports");
+        }
+    }
+}

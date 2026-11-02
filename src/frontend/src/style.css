@@ -24,4 +24,14 @@ footer { color: #9aaec9; font-size: 12px; border-top: 1px solid #263650; padding
 .auth-panel nav { display: flex; gap: 12px; flex-wrap: wrap; }
 .auth-panel nav button { background: transparent; }
 .auth-error { color: #ffc7b0; }
+.reports-panel { margin-top: 28px; padding-top: 20px; border-top: 1px solid #365071; }
+.reports-panel textarea { width: 100%; min-width: 0; resize: vertical; padding: 12px; color: #f1f5fb; background: #101f36; border: 1px solid #7898c2; border-radius: 6px; font: inherit; line-height: 1.5; }
+.reports-panel textarea:focus-visible { outline: 3px solid #b2d4ff; outline-offset: 3px; }
+.report-hint { color: #b6c3d6; font-size: 13px; line-height: 1.5; }
+.admin-reports { max-width: 100%; }
+.report-list { list-style: none; margin: 20px 0; padding: 0; }
+.report-entry { border: 1px solid #365071; border-radius: 6px; padding: 14px; margin: 14px 0; overflow-wrap: anywhere; }
+.report-entry time { color: #b6c3d6; font-size: 13px; }
+.report-text { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.6; }
+.admin-reports nav { align-items: center; }
 @media (max-width: 600px) { main { padding: 24px; } section { padding: 64px 0; } }

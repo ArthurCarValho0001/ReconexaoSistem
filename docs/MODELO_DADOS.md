@@ -32,6 +32,17 @@ unicidade, índices para consultas reais, política de soft delete e transaçõe
 de JSON de respostas/intervalos deve ser avaliado; não usar banco para armazenar vídeos.
 Retenção e exclusão de dados pessoais são pendentes; não configurar purge irreversível.
 
+## Persistência implementada na T03
+
+`PrivateReports`: Id bigint identity/PK, AuthorId obrigatório/FK AspNetUsers com
+Restrict, Text obrigatório em coluna text com CHECK char_length entre 1 e 1.000 e
+CreatedAt timestamptz UTC obrigatório. Índice (CreatedAt DESC, Id DESC) e índice de
+autor. Sem seed de relatos, expiração, soft delete, alteração de usuários ou pontos.
+Cursor vem do último registro devolvido/lido do banco, preservando microssegundos
+do PostgreSQL; desempate por ID. Não há unicidade autor/texto que impeça relatos
+posteriores iguais. Migração PrivateReports somente aditiva; Down é rollback técnico,
+não função de exclusão oferecida ao usuário. Política P11 permanece pendente.
+
 ## Renovação e avisos — proposta técnica
 
 Modelar pedidos inicial/renovação, valor e moeda registrados, períodos de acesso e origem de pagamento, configuração auditada do preço e notificações por aluno/período/tipo/canal com deduplicação e retry. Não sobrescrever o período anterior nem apagar histórico. Definir a regra de extensão em P19 antes das migrações definitivas.
