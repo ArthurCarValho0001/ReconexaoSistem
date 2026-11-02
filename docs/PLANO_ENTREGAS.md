@@ -2,7 +2,7 @@
 
 Status em 01/11/2026: T00 ACEITA documentalmente por Arthur, base aprovada com Docker
 Compose; T01 ACEITA por Arthur após evidências e conferência manual da tela local;
-T02 IMPLEMENTADO, VALIDADO_LOCAL e ACEITO por Arthur; T03–T13 A FAZER.
+T02 e T03 IMPLEMENTADO, VALIDADO_LOCAL e ACEITO por Arthur; T04–T13 A FAZER.
 Não é cronograma em dias; preservar o prazo já acordado
 sem prometer durações inventadas.
 
@@ -87,6 +87,18 @@ Nenhuma entrega de integração vira ACEITA se apenas o adapter fake funciona. C
 - Saída: C05/C06; falhas de login/recuperacao tratadas; aluno nao atribui perfil; fake email so dev/test.
 
 ## T03 - Relatos completos
+- Estado: IMPLEMENTADO, VALIDADO_LOCAL e ACEITO por Arthur em 01/11/2026 após
+  conferência manual e confirmação explícita. Branch
+  `task/t03-relatos`, base main `27c4a865`; não inicia T04.
+- Evidência: [T03](evidencias/T03_RELATOS.md). Envio privado opcional do aluno,
+  validação Unicode coerente, consulta de todos os admins com cursor estável,
+  confirmação sem histórico/pontos/edição/exclusão. Integração PostgreSQL test e
+  E2E reais; limites, logs, CSRF, XSS, privacidade e regressão de sessão cobertos.
+- P03 e P11 preservadas; não há gate ou retenção automática. Demonstração dev
+  persistente usa contas/senhas estáveis; migração sem limpar/recriar banco.
+- Commit, push sem force e PR para main autorizados; não merge ou início T04.
+  Resultados de testes e revisões estáticas não são equivalentes e estão separados
+  na evidência, incluindo o limite do backend após entrega dos arquivos/resultados.
 - Dependências: T02; confirmar P03 para gate final.
 - Trabalho: Implementar tela de envio, API e persistencia de relatos ate 1000 caracteres. Sem historico do aluno, pontos ou resposta admin; todos admins consultam autor/data/texto, com paginacao. Preservar texto no erro e limpar no sucesso. Nao bloquear implementacao independente por politica de retencao ainda pendente.
 - Saída: C06/C07/C08; validacoes cliente/servidor coerentes; nenhuma listagem privada acessivel a aluno.

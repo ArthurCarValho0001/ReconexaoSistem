@@ -102,3 +102,16 @@ dependem de proteção do diretório do usuário, com aviso de ausência de crip
 XML em repouso. Configuração operacional de chaves/criptografia/replicação e rate
 limit distribuído devem ser revisados antes da implantação, sem alegar produção pronta.
 Contratos e políticas técnicas em CONTRATOS_API; testes/evidência T02.
+
+## Relatos privados implementados na T03
+
+Módulo `Reports.cs`, persistência no contexto existente e componente `ReportsPanel`.
+POST aluno autenticado com CSRF, leitura JSON limitada a 16 KiB, campos adicionais
+recusados, autor/data do servidor, validação por escalares Unicode e erros genéricos.
+GET paginado somente admin, incluindo todos os admins pela decisão D16. Sem rotas
+de histórico do aluno, edição/exclusão, resposta, pontos ou regras comerciais.
+Texto administrativo renderizado literalmente pelo React, sem HTML interpretado.
+Formulário em memória preserva erros de envio e limpa apenas após confirmação;
+logout/perda de sessão desmonta conteúdo, consultas antigas são abortadas/descartadas.
+P03/P11 não foram resolvidas. Sem serviço externo, armazenamento de rascunho ou logs
+de conteúdo. Contratos, contagem Unicode e resultados em CONTRATOS_API/evidência T03.

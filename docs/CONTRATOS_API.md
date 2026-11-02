@@ -1,6 +1,6 @@
 # Contratos antes do paralelismo
 
-Estado: contratos T02 abaixo implementados; demais operações continuam orientação
+Estado: contratos T02/T03 abaixo implementados; demais operações continuam orientação
 de especificação, sem alegação de implementação.
 
 Para cada endpoint registrar: método/rota, ator, autorização por recurso, entrada validada,
@@ -64,6 +64,47 @@ não entrega de e-mail. Produção rejeita `Local` na inicialização; sem adapt
 recuperação retorna 503. Entrega/retry com fornecedor real pertence à T08.
 Bootstrap e fixtures são comandos CLI explícitos, não endpoints. Google verificado
 permanece T04 e nenhuma claim fictícia é emitida; gate inicial aguarda P03.
+
+## Relatos privados — contrato T03
+
+Implementado e validado localmente na T03; resultados em evidencias/T03_RELATOS.md.
+Aluno autenticado pode enviar opcionalmente; somente admins consultam qualquer relato.
+Sem histórico do aluno, pontos, resposta, edição/exclusão ou regra de retenção automática.
+Gate inicial depende de P03; retenção com dados reais depende de P11. Não são gates
+inventados nesta entrega.
+
+| Método/rota | Ator/entrada | Resposta/efeito |
+|---|---|---|
+| POST `/api/relatos` | Aluno autenticado, `{text}` e header `X-CSRF-TOKEN` | 201 `{status:"received"}` após persistência; sem eco, ID ou URL de consulta para aluno |
+| GET `/api/admin/relatos?limit=20&cursor=...` | Admin; limit de 1 a 50, cursor opcional | 200 `{items:[{id,author:{id,email},createdAt,text}],nextCursor}`; IDs de relato como strings; nextCursor null no final |
+
+Autor vem da sessão e data/hora UTC do servidor. Campos adicionais de autor/data são
+rejeitados com 400; não existe GET de histórico/detalhe para aluno. Anônimo recebe
+401 nas rotas protegidas, aluno recebe 403 na consulta administrativa; admin não
+envia relato pela rota de aluno. Sem métodos de edição/exclusão/resposta.
+Erros de validação/CSRF/cursor são 400 genéricos sem texto/autor recebido; falha de
+persistência retorna erro genérico sem corpo privado nos logs/mensagens.
+Corpo JSON do POST limitado a 16 KiB; exceder ou enviar JSON malformado gera 400
+genérico. Esse limite comporta 1.000 escalares inclusive com escapes Unicode.
+
+Contagem: valores escalares Unicode (pontos de código válidos), não bytes nem unidades
+UTF-16. Emoji simples conta 1; `e` + acento combinante conta 2; sequências de família
+contam seus componentes. CRLF e CR viram LF antes de contar/salvar; sem trim ou NFC.
+Texto deve ter 1 a 1.000 valores e algum caractere fora de Unicode White_Space.
+Surrogates isolados e NUL são recusados. Frontend aplica a mesma política; não usa
+maxlength UTF-16 que reduziria silenciosamente a capacidade de emojis.
+
+Consulta ordenada por `createdAt DESC, id DESC`, com cursor do último registro lido
+do PostgreSQL e devolvido na página; seek pelas duas chaves, sem offset/contagem total.
+O cursor contém somente posição, sem texto/autor. Novos relatos mais recentes não
+deslocam as páginas já percorridas; atualizar a lista reinicia a consulta. Um envio
+confirmado é um relato independente, sem deduplicar textos iguais. O frontend impede
+clique duplo enquanto o pedido está em andamento, sem prometer deduplicação de retry
+de uma resposta perdida. Nenhum rascunho em localStorage.
+Rascunho permanece só na memória da sessão/tela: erros de rede/validação/persistência
+mantêm o texto; logout, perda de sessão, troca de usuário ou recarga desmontam o
+formulário, sem restaurar dados para outro usuário. Relato enviado não retorna à UI
+do aluno. Admin mostra instantes UTC convertidos para Brasília na tela.
 
 ## Validade e renovação
 

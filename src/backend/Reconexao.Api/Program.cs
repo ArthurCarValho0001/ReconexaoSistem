@@ -29,6 +29,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseRateLimiter();
 app.MapAuth();
+app.MapReports();
 app.MapGet("/health/live", () => Results.Ok(new { status = "alive" }));
 app.MapGet("/health/ready", async (FoundationDbContext db, CancellationToken cancellation) =>
 {

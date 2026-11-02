@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
+import { ReportsPanel } from './ReportsPanel';
 
 type Session = { id: string; email: string; role: 'aluno' | 'admin' };
 type View = 'login' | 'forgot' | 'reset';
@@ -43,6 +44,10 @@ export function AuthPanel() {
   const generation = useRef(0);
   const mutating = useRef(false);
   const authenticated = useRef(false);
+  const sessionExpired = useCallback(() => {
+    generation.current++; authenticated.current = false;
+    setSession(null); setError(''); setMessage('Sua sessão terminou. Entre novamente.');
+  }, []);
 
   useEffect(() => {
     let active = true;
@@ -124,6 +129,7 @@ export function AuthPanel() {
       <p>{session.email}</p>
       <p>Perfil: {session.role === 'admin' ? 'Administrador' : 'Aluno'}</p>
       <button type="button" disabled={busy} onClick={() => { void logout(); }}>Sair</button>
+      {!busy && <ReportsPanel key={`${session.id}:${session.role}`} session={session} onSessionExpired={sessionExpired} />}
     </> : <>
       <form onSubmit={event => { void submit(event); }}>
         <label htmlFor="auth-email">E-mail</label>

@@ -311,3 +311,47 @@ versione nem compartilhe chaves/inbox. Criptografia e operação de chaves de pr
 dependem do ambiente de implantação. Não apagar chaves para resolver um erro de login.
 Políticas de senha, sessão, token, lockout e rate limit: CONTRATOS_API.md.
 Evidência completa: [T02_AUTENTICACAO](evidencias/T02_AUTENTICACAO.md).
+
+## Relatos privados T03
+
+Mesmos serviços/dependências da T02, sem pacote novo. Migração aditiva
+`20261101200219_PrivateReports`, sem seed de relatos ou alteração de usuários.
+Com API anterior parada para evitar bloqueio do executável:
+
+```powershell
+dotnet build Reconexao.slnx --no-restore
+node scripts/local.mjs test-db-up
+node scripts/local.mjs test
+node scripts/local.mjs auth-seed-test
+npm.cmd --prefix src/frontend run build
+```
+
+Depois de iniciar `api-test` e Vite em terminais separados como acima:
+
+```powershell
+npm.cmd --prefix src/frontend run test:e2e -- reports.spec.ts
+npm.cmd --prefix src/frontend run test:e2e -- auth.spec.ts --grep "aluno entra|consulta atrasada"
+```
+
+Somente test pode ser descartado; os testes .NET validam host/porta/banco/usuário
+antes de migrar e criam/removem apenas contas/relatos fictícios próprios. E2E usa
+fixtures de test e API/PostgreSQL reais. Falha de rede e atraso são simulados
+explicitamente no navegador, sem fabricar resposta bem-sucedida.
+
+Para demonstração dev após validar test: pare API test; execute `node scripts/local.mjs
+db-start`, `node scripts/local.mjs migrate` e `node scripts/local.mjs auth-demo`;
+inicie `node scripts/local.mjs api`. Não use db-recreate, limpeza, down -v ou
+verify-persistence nesta preparação. Este último recria container para outra prova.
+Vite continua em https://localhost:5173. Admin/aluno fictícios e senhas anteriores
+são reutilizados; principal informa as credenciais locais diretamente ao concluir.
+
+Roteiro: aluno entra e usa “Compartilhe um relato”, confere contador e envio opcional;
+erro mantém texto, confirmação limpa. Não existe histórico próprio. Admin entra e
+consulta “Relatos recebidos”, autor, horário de Brasília e texto; páginas anterior/
+próxima e atualizar. HTML/script aparece como texto. Nenhum envio gera pontos.
+Rascunho fica apenas em memória: recarregar, sair, perder sessão ou trocar usuário
+descarta o rascunho, sem reexpor dados a outra conta. No erro de envio com a mesma
+sessão, o texto permanece. Não testar com dados reais enquanto P11 estiver pendente.
+Política Unicode e cursor em CONTRATOS_API; resultados/delegações em
+[T03_RELATOS](evidencias/T03_RELATOS.md). Aceita por Arthur em 01/11/2026,
+sem produção ou início T04.

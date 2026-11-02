@@ -3,7 +3,36 @@
 Atualização: 01/11/2026. T01 ACEITA; equipe de agentes aceita e integrada pelo PR #2.
 T02 IMPLEMENTADO, VALIDADO_LOCAL e ACEITO por Arthur em 01/11/2026, considerando
 a conferência manual e o diagnóstico/correções da ressalva de rede/favicon.
-Sem produção ou T03+.
+T03 IMPLEMENTADO, VALIDADO_LOCAL e ACEITO por Arthur em 01/11/2026,
+após conferência manual aprovada e confirmação explícita do aceite.
+Sem produção ou T04+.
+
+## T03 — relatos privados
+
+- Branch `task/t03-relatos`, criada da main limpa e conferida em
+  `27c4a865d3dda0748247221d6cfe15fb80d81216` (PR #3/T02 integrada).
+- Envio opcional na Home autenticada do aluno; autor da sessão, data/hora UTC do
+  servidor, 1 a 1.000 valores escalares Unicode. Emoji simples conta 1; componentes
+  combinantes/ZWJ contam separadamente; CRLF/CR normalizados para LF, sem trim/NFC.
+- Aluno não consulta histórico próprio/terceiros. Todos os admins consultam autor,
+  data/hora e texto, por cursor estável de data/ID. Sem pontos, resposta, edição,
+  exclusão ou rascunho em localStorage. P03/gate inicial e P11/retenção seguem pendentes.
+- Migração aditiva `20261101200219_PrivateReports`, CHECK de tamanho, FK Restrict e
+  índice de paginação; test isolado, sem alteração de credenciais/contas dev.
+- Backend/banco definiram contrato/modelo; backend implementou primeiro, frontend
+  depois do handoff. 52/52 integração .NET reportados pelo backend, 4/4 E2E relatos
+  e 2/2 regressões de sessão pelo frontend; smoke adicional em test aceitou 1.000
+  emojis e conferiu layout aluno/admin a 390px. Build .NET/frontend passaram.
+- Evidência [T03](evidencias/T03_RELATOS.md), contratos e execução local atualizados.
+  Aceite restrito à T03 local, sem publicação/validação de fornecedor externo.
+- QA e segurança separados concluíram revisão estática sem bloqueador fundamentado;
+  observações documentais incorporadas. Migração dev 2→3 aplicada depois de test;
+  mesmo container/volume/dados e arquivos de senhas confirmados por digests.
+  Demonstração Development em https://localhost:5173 com as contas anteriores.
+- Fechamento autorizado com `feat(t03): implementar relatos privados do aluno`,
+  fetch, push sem force e PR para main. Sem merge ou início T04. P03/P11 pendentes.
+  Testes executados pelos implementadores/principal e revisões estáticas de QA/
+  segurança permanecem distinguidos na evidência; limite do backend foi após handoff.
 
 ## T02 — autenticação e sessões
 
